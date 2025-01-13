@@ -1,0 +1,12 @@
+<div class="store-container">
+<div class="cards-container">
+    <div *ngFor="let artist of artists" class="piece-card"  (click)="onCardClick(artist.id)">
+      <img [src]="artist.image" alt="{{ artist.name }}">
+      <div class="card-details">
+        <h2>{{ artist.name }} <span class="piece-type">{{ artist.skills[0].name }}</span></h2>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+<p>Loading...</p>
+</ng-template>

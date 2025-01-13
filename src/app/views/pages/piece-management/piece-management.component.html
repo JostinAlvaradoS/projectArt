@@ -1,0 +1,23 @@
+<div class="pieces-container">
+  <h2>Gestión de Obras de arte</h2>
+  <div class="filter-buttons">
+    <button (click)="filterPieces('all')">Todas</button>
+    <button (click)="filterPieces('verified')">Verificadas</button>
+    <button (click)="filterPieces('not-verified')">No Verificadas</button>
+  </div>
+  <div class="pieces-grid">
+    <div *ngFor="let piece of filteredPieces" class="piece-card">
+      <img [src]="piece.image" alt="{{ piece.name }}" class="piece-image">
+      <div class="piece-info">
+        <h3>{{ piece.name }}</h3>
+        <p>Precio: {{ piece.price | currency }}</p>
+        <p>Stock: {{ piece.stock }}</p>
+        <p>Dimensiones: {{ piece.height }} x {{ piece.width }}</p>
+        <p [ngClass]="piece.verification ? 'verified' : 'not-verified'">
+          {{ piece.verification ? 'Verificado' : 'No Verificado' }}
+        </p>
+        <button *ngIf="!piece.verification" class="btn-verify" (click)="updatePieceVerification(piece.id, true)">Verificar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="reviews-container">
+  <h2>Reseñas</h2>
+  <ul class="reviews-grid">
+    <li *ngFor="let review of reviews" class="review-item">
+      <div class="review-card">
+        <img [src]="review.piece.image" alt="{{ review.piece.name }}" class="piece-image">
+        <div class="review-info">
+          <h3>{{ review.piece.name }}</h3>
+          <p><strong>Usuario:</strong> {{ review.user.name }}</p>
+          <p class="stars">
+            <span *ngFor="let star of [1, 2, 3, 4, 5]" class="material-icons" [ngClass]="{'filled': star <= review.score}">
+              star
+            </span>
+          </p>
+          <div *ngIf="selectedReview && selectedReview.id === review.id">
+            <label for="description"><strong>Descripción:</strong></label>
+            <textarea id="description" [(ngModel)]="selectedReview.description" name="description" required></textarea>
+          </div>
+          <div *ngIf="!(selectedReview && selectedReview.id === review.id)">
+            <p><strong>Descripción:</strong> {{ review.description }}</p>
+            <div *ngIf="selectedReview && selectedReview.id === review.id" class="full-description">
+              <p>{{ review.description }}</p>
+              <button (click)="toggleFullDescription(null)">Ver menos</button>
+            </div>
+          </div>
+          <div class="review-actions">
+            <button *ngIf="!(selectedReview && selectedReview.id === review.id)" (click)="editReview(review)">Editar</button>
+            <button *ngIf="selectedReview && selectedReview.id === review.id" (click)="saveReview()">Guardar</button>
+            <button *ngIf="selectedReview && selectedReview.id === review.id" (click)="cancelEdit()">Cancelar</button>
+            <button (click)="deleteReview(review.id)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
