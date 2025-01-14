@@ -55,6 +55,7 @@ export class HeaderComponent implements OnInit {
               { label: 'Usuarios', route: '/usersManagement' },
               { label: 'Pagos', route: '/paymentsManagement' },
               { label: 'Obras', route: '/pieceManagement' },  
+              { label: 'Reseñas', route: '/myreviews' },
             ];
             break;
           case null:
@@ -73,6 +74,8 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.options = [
+    ];
   }
 
   navigateTo(route: string): void {

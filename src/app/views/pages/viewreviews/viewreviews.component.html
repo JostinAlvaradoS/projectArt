@@ -17,17 +17,18 @@
             <textarea id="description" [(ngModel)]="selectedReview.description" name="description" required></textarea>
           </div>
           <div *ngIf="!(selectedReview && selectedReview.id === review.id)">
-            <p><strong>Descripción:</strong> {{ review.description }}</p>
+            <p><strong>Descripción:</strong> {{ review.description | slice:0:100 }}<span *ngIf="review.description.length > 100">...</span></p>
+            <button *ngIf="review.description.length > 100" (click)="toggleFullDescription(review)">Ver más</button>
             <div *ngIf="selectedReview && selectedReview.id === review.id" class="full-description">
               <p>{{ review.description }}</p>
               <button (click)="toggleFullDescription(null)">Ver menos</button>
             </div>
           </div>
-          <div class="review-actions">
-            <button *ngIf="!(selectedReview && selectedReview.id === review.id)" (click)="editReview(review)">Editar</button>
+          <div class="review-actions" *ngIf="currentUser && (review.user.id === currentUser.id || currentUser.role === 'admin')">
+            <button *ngIf="!(selectedReview && selectedReview.id === review.id) && review.user.id === currentUser.id" (click)="editReview(review)">Editar</button>
             <button *ngIf="selectedReview && selectedReview.id === review.id" (click)="saveReview()">Guardar</button>
             <button *ngIf="selectedReview && selectedReview.id === review.id" (click)="cancelEdit()">Cancelar</button>
-            <button (click)="deleteReview(review.id)">Eliminar</button>
+            <button *ngIf="review.user.id === currentUser.id || currentUser.role === 'admin'" (click)="deleteReview(review.id)">Eliminar</button>
           </div>
         </div>
       </div>
