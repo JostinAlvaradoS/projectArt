@@ -6,6 +6,6 @@ export const environment = {
         projectId: "arteproject-f65c8",
         storageBucket: "arteproject-f65c8.firebasestorage.app",
         messagingSenderId: "160224326889",
-        appId: "1:160224326889:web:4763c6beb3bd1c36f7ec78"
+        appId: "1:160224326889:web:4a51c7caf685a9b5f7ec78"
       },
     };
