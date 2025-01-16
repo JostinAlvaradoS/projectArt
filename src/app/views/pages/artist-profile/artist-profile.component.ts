@@ -16,6 +16,8 @@ export class ArtistProfileComponent implements OnInit {
   pieces: Piece[] = [];
   searchQuery: string = '';
   currentUser!: User;
+  isEditing: boolean = false; // Estado de edición
+
   constructor(
     private firebaseService: FirebaseService,
     private authService: AuthService,
@@ -68,5 +70,22 @@ export class ArtistProfileComponent implements OnInit {
 
   onCardClick(pieceId: string): void {
     this.router.navigate(['/pieceInfo'], { queryParams: { id: pieceId } });
+  }
+
+  // Métodos para manejar la edición
+  toggleEdit(): void {
+    this.isEditing = !this.isEditing;
+  }
+
+  saveChanges(): void {
+    if (this.artist) {
+      this.firebaseService.updateUser(this.artist).then(() => {
+        this.isEditing = false;
+        alert('Perfil actualizado con éxito');
+        if (this.artist) {
+          this.loadArtistInfo(this.artist.id);
+        }
+      });
+    }
   }
 }

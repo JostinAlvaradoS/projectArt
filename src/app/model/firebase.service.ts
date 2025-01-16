@@ -137,4 +137,5 @@ export class FirebaseService {
     return this.firestore.collection('reviews').doc(saleId).delete();
   }
 
+ 
 }
