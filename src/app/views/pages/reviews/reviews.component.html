@@ -7,8 +7,15 @@
     {{ sale.status ? 'Completado' : 'Pendiente' }}
   </p>
 
+  <!-- Controles de paginación -->
+  <div class="pagination">
+    <button (click)="changePage(i + 1)" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+      {{ i + 1 }}
+    </button>
+  </div>
+
   <div class="cards-container">
-    <div *ngFor="let piece of sale.piece" 
+    <div *ngFor="let piece of paginatedPieces" 
          (click)="selectPiece(piece)"  
          class="piece-card" 
          [ngClass]="{'active': selectedPiece === piece}">
@@ -17,6 +24,13 @@
             <h4>{{ piece.name }}</h4>
         </div>
     </div>
+  </div>
+
+  <!-- Controles de paginación (repetidos abajo) -->
+  <div class="pagination">
+    <button (click)="changePage(i + 1)" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+      {{ i + 1 }}
+    </button>
   </div>
 
   <div *ngIf="selectedPiece" class="review-form">

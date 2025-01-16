@@ -13,6 +13,10 @@ export class MisPedidospageComponent implements OnInit {
   sales: Sale[] = [];
   currentUser: any;
 
+  // Variables para la paginación
+  currentPage: number = 1;
+  salesPerPage: number = 4;
+
   constructor(
     private firebaseService: FirebaseService,
     private authService: AuthService,
@@ -37,5 +41,20 @@ export class MisPedidospageComponent implements OnInit {
 
   navigateToReviews(saleId: string): void {
     this.router.navigate(['/reviews'], { queryParams: { saleId } });
+  }
+
+  // Métodos para la paginación
+  get totalPages(): number {
+    return Math.ceil(this.sales.length / this.salesPerPage);
+  }
+
+  get paginatedSales(): Sale[] {
+    const start = (this.currentPage - 1) * this.salesPerPage;
+    const end = start + this.salesPerPage;
+    return this.sales.slice(start, end);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }

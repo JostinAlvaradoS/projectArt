@@ -1,5 +1,12 @@
 <div *ngIf="sales.length > 0; else noSales">
-  <div *ngFor="let sale of sales" class="sale-card">
+  <!-- Controles de paginación -->
+  <div class="pagination">
+    <button (click)="changePage(i + 1)" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+      {{ i + 1 }}
+    </button>
+  </div>
+
+  <div *ngFor="let sale of paginatedSales" class="sale-card">
     <div class="sale-info">
       <h3>Pedido ID: {{ sale.id }}</h3>
       <p>Total: {{ sale.total | currency }}</p>
@@ -20,6 +27,13 @@
         <button class="btn-reject" (click)="updateSaleStatus(sale.id, false)">Rechazar</button>
       </div>
     </div>
+  </div>
+
+  <!-- Controles de paginación (repetidos abajo) -->
+  <div class="pagination">
+    <button (click)="changePage(i + 1)" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+      {{ i + 1 }}
+    </button>
   </div>
 </div>
 <ng-template #noSales>

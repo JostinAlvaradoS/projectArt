@@ -10,6 +10,10 @@ import { Sale } from '../../../interfaces/sale';
 export class PaymentsManagementComponent implements OnInit {
   sales: Sale[] = [];
 
+  // Variables para la paginación
+  currentPage: number = 1;
+  salesPerPage: number = 4;
+
   constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit(): void {
@@ -32,5 +36,20 @@ export class PaymentsManagementComponent implements OnInit {
         this.loadSales();
       });
     }
+  }
+
+  // Métodos para la paginación
+  get totalPages(): number {
+    return Math.ceil(this.sales.length / this.salesPerPage);
+  }
+
+  get paginatedSales(): Sale[] {
+    const start = (this.currentPage - 1) * this.salesPerPage;
+    const end = start + this.salesPerPage;
+    return this.sales.slice(start, end);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }

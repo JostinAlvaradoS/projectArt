@@ -11,6 +11,10 @@ export class PieceManagementComponent implements OnInit {
   pieces: Piece[] = [];
   filteredPieces: Piece[] = [];
 
+  // Variables para la paginación
+  currentPage: number = 1;
+  piecesPerPage: number = 4;
+
   constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit(): void {
@@ -38,5 +42,20 @@ export class PieceManagementComponent implements OnInit {
     } else if (filter === 'not-verified') {
       this.filteredPieces = this.pieces.filter(piece => !piece.verification);
     }
+  }
+
+  // Métodos para la paginación
+  get totalPages(): number {
+    return Math.ceil(this.filteredPieces.length / this.piecesPerPage);
+  }
+
+  get paginatedPieces(): Piece[] {
+    const start = (this.currentPage - 1) * this.piecesPerPage;
+    const end = start + this.piecesPerPage;
+    return this.filteredPieces.slice(start, end);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }

@@ -11,6 +11,10 @@ export class UsersManagementComponent implements OnInit {
   users: User[] = [];
   selectedUser: User | null = null;
 
+  // Variables para la paginación
+  currentPage: number = 1;
+  usersPerPage: number = 4;
+
   constructor(private firebaseService: FirebaseService) {}
 
   ngOnInit(): void {
@@ -44,5 +48,20 @@ export class UsersManagementComponent implements OnInit {
     this.firebaseService.deleteUser(userId).then(() => {
       this.loadUsers();
     });
+  }
+
+  // Métodos para la paginación
+  get totalPages(): number {
+    return Math.ceil(this.users.length / this.usersPerPage);
+  }
+
+  get paginatedUsers(): User[] {
+    const start = (this.currentPage - 1) * this.usersPerPage;
+    const end = start + this.usersPerPage;
+    return this.users.slice(start, end);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }

@@ -25,6 +25,10 @@ export class ReviewsComponent implements OnInit {
     description: ''
   };
 
+  // Variables para la paginación
+  currentPage: number = 1;
+  piecesPerPage: number = 4;
+
   constructor(
     private route: ActivatedRoute,
     private firebaseService: FirebaseService,
@@ -70,5 +74,20 @@ export class ReviewsComponent implements OnInit {
         description: ''
       };
     });
+  }
+
+  // Métodos para la paginación
+  get totalPages(): number {
+    return Math.ceil((this.sale?.piece?.length || 0) / this.piecesPerPage);
+  }
+
+  get paginatedPieces(): Piece[] {
+    const start = (this.currentPage - 1) * this.piecesPerPage;
+    const end = start + this.piecesPerPage;
+    return this.sale?.piece.slice(start, end) || [];
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }
