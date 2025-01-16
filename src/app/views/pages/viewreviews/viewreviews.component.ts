@@ -14,6 +14,10 @@ export class ViewreviewsComponent implements OnInit {
   reviews: Review[] = [];
   selectedReview: Review | null = null;
 
+  // Variables para la paginación
+  currentPage: number = 1;
+  reviewsPerPage: number = 4;
+
   constructor(
     private route: ActivatedRoute,
     private firebaseService: FirebaseService,
@@ -60,5 +64,20 @@ export class ViewreviewsComponent implements OnInit {
 
   toggleFullDescription(review: Review | null): void {
     this.selectedReview = review;
+  }
+
+  // Métodos para la paginación
+  get totalPages(): number {
+    return Math.ceil(this.reviews.length / this.reviewsPerPage);
+  }
+
+  get paginatedReviews(): Review[] {
+    const start = (this.currentPage - 1) * this.reviewsPerPage;
+    const end = start + this.reviewsPerPage;
+    return this.reviews.slice(start, end);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }
